@@ -1,5 +1,6 @@
 from openai import OpenAI
 from .retrieval import retrieval
+from services.history import get_history, save_message
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -137,12 +138,16 @@ Chunk: {point.payload["chunk_id"]}
 
     return "\n\n---\n\n".join(contexts)
 
-def chat(question : str):
-    results = retrieval(question)
-    context = build_context(results) + f"\n\n this is user question : {question}"
-    response = OPENAI.chat.completions.create(model="gpt-5.4-nano", messages=[{"role" : "system", "content" : SYSTEM_PROMPT},
-                                                                              {"role" : "user", "content" : context}])
+def chat(user_request):
+    history = get_history(user_request.session_id)
+    results = retrieval(user_request.question)
+    context = build_context(results) + f"\n\n this is user question : {user_request.question}"
+    messages = [{"role" : "system", "content" : SYSTEM_PROMPT}] + history + [{"role" : "user", "content" : context}]
+    response = OPENAI.chat.completions.create(model="gpt-5.4-nano", messages=messages)
     answear = response.choices[0].message.content
+    save_message(user_request.session_id, "user", user_request.question)
+    save_message(user_request.session_id, "assistant", answear)
+    print(history)
     return {"answear" : answear,
             "source" : list({point.payload["document_name"] for point, score in results})}
 
