@@ -3,10 +3,12 @@ import math
 from pydantic import BaseModel, Field
 from litellm import completion
 from dotenv import load_dotenv
+from uuid import uuid4
 
 from evaluation.test import TestQuestion, load_tests
 from services.retrieval import retrieval
 from services.chat import chat
+from schemas.chat import ChatRequest
 
 
 load_dotenv(override=True)
@@ -126,7 +128,10 @@ def evaluate_answer(test: TestQuestion) -> tuple[AnswerEval, str, list]:
         Tuple of (AnswerEval object, generated_answer string, retrieved_docs list)
     """
     # Get RAG response using shared answer module
-    response = chat(test.question)
+    response = chat(ChatRequest(
+        question=test.question,
+        session_id=str(uuid4())
+    ))
 
     generated_answer = response["answear"]
     retrieved_docs = response["source"]

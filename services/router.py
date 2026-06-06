@@ -5,8 +5,11 @@ from typing import Literal
 
 
 load_dotenv(override=True)
-OPENAI= OpenAI()
-MODEL = "gpt-5.4-nano"
+# OPENAI= OpenAI()
+# MODEL = "gpt-5.4-nano"
+
+OPENAI = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+MODEL = "frob/qwen3.5-instruct"
 
 class RouterResponse(BaseModel):
     use_rag: bool
@@ -124,7 +127,7 @@ def router(question, history):
     history = history + [{"role" : "user", "content" : question}]
     messages = [{"role" : "system", "content" : router_prompt.format(history=history, question=question)}]
     response = OPENAI.responses.parse(
-    model="gpt-4.1-mini",
+    model=MODEL,
     input=messages,
     text_format=RouterResponse
 )
@@ -134,4 +137,4 @@ if __name__ == "__main__" :
     history = []
     question = "Berapa hari annual leave untuk karyawan full-time?"
     route_result = router(question, history)
-    print(route_result.task_type)
+    print(route_result)

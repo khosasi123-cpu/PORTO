@@ -7,8 +7,11 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-OPENAI = OpenAI()
-MODEL = "gpt-5.4-nano"
+# OPENAI = OpenAI()
+# MODEL = "gpt-5.4-nano"
+
+MODEL = "frob/qwen3.5-instruct"
+OPENAI = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
 
 RAG_SYSTEM_PROMPT = """
 You are a Knowledge Base Assistant.
