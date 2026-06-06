@@ -1,13 +1,16 @@
 from openai import OpenAI
-from .retrieval import retrieval
+from services.retrieval import retrieval
 from services.history import get_history, save_message
+from services.router import router
+from schemas.chat import ChatRequest
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
 OPENAI = OpenAI()
+MODEL = "gpt-5.4-nano"
 
-SYSTEM_PROMPT = """
+RAG_SYSTEM_PROMPT = """
 You are a Knowledge Base Assistant.
 
 Role
@@ -121,6 +124,70 @@ Repeating large sections of source documents
 Always answer using information supported by the provided context.
 """
 
+
+SYSTEM_PROMPT = """
+You are a helpful assistant.
+
+You have access to the current conversation history.
+
+Your primary responsibilities are:
+
+1. Translation
+
+* Translate content between languages when requested.
+* Preserve the original meaning.
+* Preserve technical terminology when appropriate.
+* If the user specifies a target language, translate into that language.
+* If the target language is unclear, infer it from the request when reasonable.
+
+Examples:
+
+* Translate that.
+* Translate this to Indonesian.
+* Yang tadi ke bahasa Indonesia.
+* Ubah ke bahasa Inggris.
+* English version please.
+
+2. Clarification
+
+* Explain previous responses in simpler terms.
+* Clarify confusing statements.
+* Explain technical terms when asked.
+
+Examples:
+
+* What does that mean?
+* Ini maksudnya apa?
+* Bisa dijelaskan lebih sederhana?
+* Maksudnya gimana?
+
+3. Summarization
+
+* Summarize previous responses when requested.
+* Focus on key information and important points.
+
+Examples:
+
+* Ringkas jawaban tadi.
+* Summarize that.
+* Berikan versi singkatnya.
+
+4. Follow-up Conversation
+
+* Continue the conversation naturally when the user is referring to previous responses.
+* Use conversation history as context when necessary.
+
+General Rules:
+
+* Use conversation history when relevant.
+* Do not invent facts that are not present in the conversation.
+* If the user asks for information that is not available in the conversation history, answer using your general knowledge.
+* Be concise unless the user requests more detail.
+* Maintain the language preferred by the user.
+* For translation requests, output the translated content directly unless the user asks for additional explanation.
+
+"""
+
 def build_context(results):
 
     contexts = []
@@ -140,18 +207,34 @@ Chunk: {point.payload["chunk_id"]}
 
 def chat(user_request):
     history = get_history(user_request.session_id)
-    results = retrieval(user_request.question)
-    context = build_context(results) + f"\n\n this is user question : {user_request.question}"
-    messages = [{"role" : "system", "content" : SYSTEM_PROMPT}] + history + [{"role" : "user", "content" : context}]
-    response = OPENAI.chat.completions.create(model="gpt-5.4-nano", messages=messages)
-    answear = response.choices[0].message.content
+    router_result = router(user_request.question, history)
+    print({
+    "question": user_request.question,
+    "use_rag": router_result.use_rag,
+    "rewritten_query": router_result.rewritten_query
+})
+    answear = ""
+    results = []
+    if router_result.use_rag:
+        docs = retrieval(router_result.rewritten_query)
+        context = build_context(docs) + f"\n\n this is user question : {user_request.question}"
+        messages = [{"role" : "system", "content" : RAG_SYSTEM_PROMPT}] + history + [{"role" : "user", "content" : context}]
+        response = OPENAI.chat.completions.create(model=MODEL, messages=messages)
+        answear += response.choices[0].message.content
+        results += list({point.payload["document_name"] for point, score in docs})
+    else:
+        messages = [{"role" : "system", "content" : SYSTEM_PROMPT}] + history + [{"role" : "user", "content" : user_request.question}]
+        response = OPENAI.chat.completions.create(model=MODEL, messages=messages)
+        answear += response.choices[0].message.content
     save_message(user_request.session_id, "user", user_request.question)
     save_message(user_request.session_id, "assistant", answear)
     print(history)
     return {"answear" : answear,
-            "source" : list({point.payload["document_name"] for point, score in results})}
+            "source" : results
+            }
 
 
 
 if __name__ == "__main__":
-    print(chat("What should I do during a security incident?"))
+    chat_req = ChatRequest(session_id="1234", question="Apa target response time P1?")
+    print(chat(chat_req))
