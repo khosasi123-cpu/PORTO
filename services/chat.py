@@ -1,4 +1,5 @@
 from openai import OpenAI
+import os
 from services.retrieval import retrieval
 from services.history import get_history, save_message
 from services.router import router
@@ -6,12 +7,10 @@ from schemas.chat import ChatRequest
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
+MODEL = os.getenv("MODEL_NAME")
+base_url = os.getenv("OLLAMA_BASE_URL")
 
-# OPENAI = OpenAI()
-# MODEL = "gpt-5.4-nano"
-
-MODEL = "frob/qwen3.5-instruct"
-OPENAI = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+OPENAI = OpenAI(base_url=base_url, api_key="ollama")
 
 RAG_SYSTEM_PROMPT = """
 You are a Knowledge Base Assistant.

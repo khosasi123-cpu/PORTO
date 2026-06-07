@@ -7,18 +7,23 @@ from qdrant_client.models import PointStruct, VectorParams, Distance
 from pathlib import Path
 import glob
 import os
+from dotenv import load_dotenv
 
-
+load_dotenv(override=True)
+QDRANT_HOST = os.getenv("QDRANT_HOST")
+QDRANT_PORT = os.getenv("QDRANT_PORT")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME")
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 BASE_FOLDER = Path(__file__).parent.parent / "data"
 FOLDERS = [p for p in BASE_FOLDER.iterdir() if p.is_dir()]
 
 #load embeddingt model
-embedding = SentenceTransformer("BAAI/bge-large-en-v1.5", device="cuda")
+embedding = SentenceTransformer(EMBEDDING_MODEL, device="cuda")
 
 #crete collection
-client = QdrantClient(host="localhost", port= 6333)
-if not client.collection_exists("knowledge-base"):
-    client.create_collection(collection_name="knowledge-base", 
+client = QdrantClient(host=QDRANT_HOST, port= QDRANT_PORT)
+if not client.collection_exists(COLLECTION_NAME):
+    client.create_collection(collection_name=COLLECTION_NAME, 
                             vectors_config=VectorParams(size=1024, distance=Distance.COSINE)
                             )
 
