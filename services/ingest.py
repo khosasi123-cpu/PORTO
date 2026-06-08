@@ -18,7 +18,7 @@ BASE_FOLDER = Path(__file__).parent.parent / "data"
 FOLDERS = [p for p in BASE_FOLDER.iterdir() if p.is_dir()]
 
 #load embeddingt model
-embedding = SentenceTransformer(EMBEDDING_MODEL, device="cuda")
+embedding = SentenceTransformer(EMBEDDING_MODEL, device="cpu")
 
 #crete collection
 client = QdrantClient(host=QDRANT_HOST, port= QDRANT_PORT)

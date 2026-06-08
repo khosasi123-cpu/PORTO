@@ -12,8 +12,8 @@ RERANKER_MODEL = os.getenv("RERANKER_MODEL")
 LIMIT = int(os.getenv("LIMIT"))
 RERANK_TOP_K = int(os.getenv("RERANK_TOP_K"))
 
-reranker = CrossEncoder(RERANKER_MODEL, device="cuda")
-embedding = SentenceTransformer(EMBEDDING_MODEL, device="cuda")
+reranker = CrossEncoder(RERANKER_MODEL, device="cpu")
+embedding = SentenceTransformer(EMBEDDING_MODEL, device="cpu")
 client = QdrantClient(port=QDRANT_PORT, location=QDRANT_HOST)
 
 collection = COLLECTION_NAME
