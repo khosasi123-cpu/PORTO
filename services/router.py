@@ -1,3 +1,4 @@
+import os
 from openai import OpenAI
 from dotenv import load_dotenv
 from pydantic import BaseModel
@@ -7,8 +8,9 @@ from typing import Literal
 load_dotenv(override=True)
 # OPENAI= OpenAI()
 # MODEL = "gpt-5.4-nano"
+base_url = os.getenv("OLLAMA_BASE_URL")
 
-OPENAI = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+OPENAI = OpenAI(base_url=base_url, api_key="ollama")
 MODEL = "frob/qwen3.5-instruct"
 
 class RouterResponse(BaseModel):
@@ -17,58 +19,39 @@ class RouterResponse(BaseModel):
     
 
 router_prompt = """
-You are a routing and query rewriting system for a Knowledge Assistant.
+You are a routing and query rewriting assistant for a HUMS troubleshooting chatbot.
+HUMS is an application that monitors system health and provides troubleshooting guidance for the aircraft.
 
-Your job is to determine whether the user's latest message requires retrieving information from the knowledge base.
+Your responsibilities:
 
-If retrieval is required:
+1. Decide whether the user's latest message requires retrieval from HUMS troubleshooting documents.
+2. If retrieval is needed:
+   - set use_rag = true
+   - rewrite the user's query into a concise retrieval-friendly query
+3. If retrieval is NOT needed:
+   - set use_rag = false
+   - keep the query as the original user message
 
-- Set use_rag to true.
-- Rewrite the user's request into a complete standalone search query.
-- Include relevant context from conversation history when needed.
-- Resolve references such as:
-  - it
-  - this
-  - that
-  - tadi
-  - ini
-  - itu
-- The rewritten query should be suitable for semantic search and retrieval.
+Use RAG when:
+- the user asks troubleshooting questions
+- the user asks procedural or step-by-step questions
+- the user refers to HUMS issues, errors, system behavior, logs, files, services, configuration
+- the user asks follow-up questions that depend on prior troubleshooting context
 
-If retrieval is NOT required:
+Do NOT use RAG when:
+- the user is greeting
+- casual conversation
+- thanks / acknowledgements
+- general knowledge unrelated to HUMS
+- open-ended discussion not requiring troubleshooting documents
 
-- Set use_rag to false.
-- Set rewritten_query to null.
-
-Examples of messages that usually do NOT require retrieval:
-
-- Translate that.
-- Yang tadi ke bahasa Indonesia.
-- Translate this text.
-- Ini maksudnya apa?
-- Jelaskan kalimat terakhir.
-- Bisa dijelaskan lebih sederhana?
-- Tolong ubah ke bahasa Inggris.
-
-These requests can usually be answered using conversation history alone.
-
-Examples of messages that usually DO require retrieval:
-
-- Apa itu annual leave?
-- Berapa hari maternity leave?
-- Siapa yang menyetujui refund di atas $1000?
-- Apa target response time untuk P1?
-- Bagaimana prosedur refund?
-
-Examples requiring retrieval and history resolution:
-
-History:
-Assistant: Maternity leave is 90 calendar days.
-
-User:
-Kalau adopsi?
-
-Output:
+Rewrite rules:
+- preserve original technical terms exactly
+- preserve product names, acronyms, filenames, error messages, commands
+- use conversation history only when needed to resolve ambiguity
+- do not invent missing technical details
+- do not answer the question
+- keep rewritten_query concise and retrieval-friendly
 
 {{
   "use_rag": true,
@@ -108,6 +91,7 @@ Output:
 Rules:
 
 - Return valid JSON only.
+- if uncertain, prefer use_rag = true
 - Do not explain your reasoning.
 - Do not return markdown.
 - Do not return extra text.
@@ -125,7 +109,7 @@ Latest User Message:
 
 def router(question, history):
     history = history + [{"role" : "user", "content" : question}]
-    messages = [{"role" : "system", "content" : router_prompt.format(history=history, question=question)}]
+    messages = [{"role" : "system", "content" : router_prompt.format(history=history, question=question)}, {"role" : "user", "content" : question}]
     response = OPENAI.responses.parse(
     model=MODEL,
     input=messages,
@@ -135,6 +119,6 @@ def router(question, history):
 
 if __name__ == "__main__" :
     history = []
-    question = "Berapa hari annual leave untuk karyawan full-time?"
+    question = "cara buat resend FSC di HUMS?"
     route_result = router(question, history)
     print(route_result)

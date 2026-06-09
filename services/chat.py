@@ -7,7 +7,7 @@ from schemas.chat import ChatRequest
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
-MODEL = os.getenv("MODEL_NAME")
+MODEL = os.getenv("MODEL")
 base_url = os.getenv("OLLAMA_BASE_URL")
 
 OPENAI = OpenAI(base_url=base_url, api_key="ollama")

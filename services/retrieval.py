@@ -47,6 +47,6 @@ def retrieval(question : str) -> list[dict]:
     return ranked_docs[:RERANK_TOP_K]
 
 if __name__ =="__main__" :
-    result = retrieval("What should I do during a security incident?")
+    result = retrieval("cara resend FSC di HUMS?")
     print(result)
     
