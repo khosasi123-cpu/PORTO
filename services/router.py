@@ -108,7 +108,6 @@ Latest User Message:
 
 
 def router(question, history):
-    history = history + [{"role" : "user", "content" : question}]
     messages = [{"role" : "system", "content" : router_prompt.format(history=history, question=question)}, {"role" : "user", "content" : question}]
     response = OPENAI.responses.parse(
     model=MODEL,
