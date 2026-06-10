@@ -28,11 +28,8 @@ def chat(message, history):
     sources = data.get("source", [])
 
     if sources:
-        answer += "\n\n📄 Sources\n"
-        answer += "\n".join(
-            f"• {source}"
-            for source in sources
-        )
+        source_links = "\n".join( f"- [{doc}](http://localhost:8000/retrieve/documents/{doc})" for doc in sources )
+        answer += f"\n\n### Sources\n{source_links}"
 
     return answer
 
