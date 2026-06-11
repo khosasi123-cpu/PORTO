@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse
 from services.retrieval import retrieval
+from services.doc_retrieval import get_document_path
 from schemas import retrieval as retrieval_schemas
 
 
@@ -21,4 +23,19 @@ def retrieve_document(question : str):
         })
     return {"results" : data}
 
+@router.get("/documents/{document_name}")
+def download_document(document_name: str):
 
+    try:
+        path = get_document_path(document_name)
+
+        return FileResponse(
+            path=path,
+            filename=path.name
+        )
+
+    except FileNotFoundError:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found"
+        )
