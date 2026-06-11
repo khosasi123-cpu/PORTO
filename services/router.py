@@ -18,92 +18,78 @@ class RouterResponse(BaseModel):
     rewritten_query: str | None = None
     
 
+
 router_prompt = """
-You are a routing and query rewriting assistant for a HUMS troubleshooting chatbot.
-HUMS is an application that monitors system health and provides troubleshooting guidance for the aircraft.
+You are a routing assistant for a HUMS knowledge assistant.
 
-Your responsibilities:
+Return JSON only:
 
-1. Decide whether the user's latest message requires retrieval from HUMS troubleshooting documents.
-2. If retrieval is needed:
-   - set use_rag = true
-   - rewrite the user's query into a concise retrieval-friendly query
-3. If retrieval is NOT needed:
-   - set use_rag = false
-   - keep the query as the original user message
+{{
+  "use_rag": boolean,
+  "rewritten_query": string | null
+}}
 
 Use RAG when:
-- the user asks troubleshooting questions
-- the user asks procedural or step-by-step questions
-- the user refers to HUMS issues, errors, system behavior, logs, files, services, configuration
-- the user asks follow-up questions that depend on prior troubleshooting context
+- troubleshooting questions
+- HUMS procedures
+- HUMS features
+- HUMS errors
+- HUMS logs
+- HUMS configuration
+- HUMS maintenance tasks
+- follow-up questions about previously retrieved HUMS information
+- questions that require information from documentation
 
 Do NOT use RAG when:
-- the user is greeting
-- casual conversation
-- thanks / acknowledgements
-- general knowledge unrelated to HUMS
-- open-ended discussion not requiring troubleshooting documents
-
-Rewrite rules:
-- preserve original technical terms exactly
-- preserve product names, acronyms, filenames, error messages, commands
-- use conversation history only when needed to resolve ambiguity
-- do not invent missing technical details
-- do not answer the question
-- keep rewritten_query concise and retrieval-friendly
-
-{{
-  "use_rag": true,
-  "rewritten_query": "How many days of adoption leave are employees entitled to?"
-}}
-
----
-
-History:
-Assistant: Severity 1 incidents require a response within 15 minutes.
-
-User:
-Kalau P2?
-
-Output:
-
-{{
-  "use_rag": true,
-  "rewritten_query": "What is the target response time for Severity 2 incidents?"
-}}
-
----
-
-History:
-Assistant: Full-time employees are entitled to 18 days of annual leave.
-
-User:
-Kalau part time gimana?
-
-Output:
-
-{{
-  "use_rag": true,
-  "rewritten_query": "How is annual leave calculated for part-time employees?"
-}}
+- greetings
+- small talk
+- thanks
+- translation
+- summarization
+- rewriting
+- markdown conversion
+- formatting
+- grammar correction
+- content generation
+- tasks that only use user-provided text or conversation history
 
 Rules:
-
-- Return valid JSON only.
-- if uncertain, prefer use_rag = true
-- Do not explain your reasoning.
-- Do not return markdown.
-- Do not return extra text.
+- If use_rag is true, rewrite the question into a standalone retrieval query.
+- Preserve technical terms exactly.
+- Do not answer the question.
 - If use_rag is false, rewritten_query must be null.
-- If use_rag is true, rewritten_query must be a complete standalone query.
+- Return JSON only.
 
-Conversation History:
+Examples:
+
+User: How to resend FSC in HUMS?
+Output:
+{{
+  "use_rag": true,
+  "rewritten_query": "How to resend FSC in HUMS?"
+}}
+
+User: Translate this to Bahasa Indonesia.
+Output:
+{{
+  "use_rag": false,
+  "rewritten_query": null
+}}
+
+User: Convert this document to markdown.
+Output:
+{{
+  "use_rag": false,
+  "rewritten_query": null
+}}
+
+History:
 {history}
 
-Latest User Message:
+User:
 {question}
 """
+
 
 
 
@@ -112,7 +98,8 @@ def router(question, history):
     response = OPENAI.responses.parse(
     model=MODEL,
     input=messages,
-    text_format=RouterResponse
+    text_format=RouterResponse,
+    temperature=0
 )
     return response.output_parsed
 

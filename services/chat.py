@@ -221,16 +221,15 @@ def chat(user_request):
         docs = retrieval(router_result.rewritten_query)
         context = build_context(docs) + f"\n\n this is user question : {user_request.question}"
         messages = [{"role" : "system", "content" : RAG_SYSTEM_PROMPT}] + history + [{"role" : "user", "content" : context}]
-        response = OPENAI.chat.completions.create(model=MODEL, messages=messages)
+        response = OPENAI.chat.completions.create(model=MODEL, messages=messages, temperature=0)
         answear += response.choices[0].message.content
         results += list({point.payload["document_name"] for point, score in docs})
     else:
         messages = [{"role" : "system", "content" : SYSTEM_PROMPT}] + history + [{"role" : "user", "content" : user_request.question}]
-        response = OPENAI.chat.completions.create(model=MODEL, messages=messages)
+        response = OPENAI.chat.completions.create(model=MODEL, messages=messages, temperature=0)
         answear += response.choices[0].message.content
     save_message(user_request.session_id, "user", user_request.question)
     save_message(user_request.session_id, "assistant", answear)
-    print(history)
     return {"answear" : answear,
             "source" : results
             }
