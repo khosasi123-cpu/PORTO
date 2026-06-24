@@ -6,6 +6,10 @@ question = """Manage striped icon
 Most of the time it’s due to a recording issue on the MDC. An alternative solution might be to edit the flight data manually to “clean” them and then read them to get rid of the striped icon.
 tolong buat ke dalam bahasa indonesia"""
 
+# question = "how to create backup flight at HUMS"
+
+
+
 class KnowledgeOpsUser(HttpUser):
     # URL FastAPI yang sedang berjalan dari Docker.
     host = "http://127.0.0.1:8000"
