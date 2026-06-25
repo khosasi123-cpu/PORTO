@@ -10,8 +10,9 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 MODEL = os.getenv("MODEL")
 base_url = os.getenv("OLLAMA_BASE_URL")
+api_key = os.getenv("OPENAI_API_KEY")
 
-OPENAI = OpenAI(base_url=base_url, api_key="ollama")
+OPENAI = OpenAI(base_url=base_url, api_key=api_key)
 
 RAG_SYSTEM_PROMPT = """
 You are a Knowledge Base Assistant.

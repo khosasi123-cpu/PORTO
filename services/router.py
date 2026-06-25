@@ -9,9 +9,10 @@ load_dotenv(override=True)
 # OPENAI= OpenAI()
 # MODEL = "gpt-5.4-nano"
 base_url = os.getenv("OLLAMA_BASE_URL")
+api_key = os.getenv("OPENAI_API_KEY")
+MODEL = os.getenv("MODEL")
 
-OPENAI = OpenAI(base_url=base_url, api_key="ollama")
-MODEL = "frob/qwen3.5-instruct"
+OPENAI = OpenAI(base_url=base_url, api_key=api_key)
 
 class RouterResponse(BaseModel):
     use_rag: bool
