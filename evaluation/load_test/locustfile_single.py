@@ -1,12 +1,12 @@
 import uuid
 
 from locust import HttpUser, between, task
-# question = """Manage striped icon
-#   This icon appears when several phases have been recorded on the MDC (even if only one flight has been performed) and HUMS is not able to assign data to the proper phase (MFR / engine files).
-# Most of the time it’s due to a recording issue on the MDC. An alternative solution might be to edit the flight data manually to “clean” them and then read them to get rid of the striped icon.
-# tolong buat ke dalam bahasa indonesia"""
+question = """Manage striped icon
+  This icon appears when several phases have been recorded on the MDC (even if only one flight has been performed) and HUMS is not able to assign data to the proper phase (MFR / engine files).
+Most of the time it’s due to a recording issue on the MDC. An alternative solution might be to edit the flight data manually to “clean” them and then read them to get rid of the striped icon.
+tolong buat ke dalam bahasa indonesia"""
 
-question = "when is The HUMS Server Recovery Procedure is used"
+# question = "when is The HUMS Server Recovery Procedure is used"
 
 
 
