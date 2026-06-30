@@ -223,7 +223,7 @@ def chat(user_request):
     print({
     "question": user_request.question[:100],
     "use_rag": router_result.use_rag,
-    "rewritten_query": router_result.rewritten_query
+    "rewritten_query": router_result.rewritten_query[:100] if router_result.rewritten_query else None
 })
 
     messages = []

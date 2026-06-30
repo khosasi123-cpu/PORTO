@@ -1,0 +1,169 @@
+[
+  {
+    "id": "recovery_01",
+    "category": "rag",
+    "questions": [
+      "What is the HUMS Server Recovery Procedure?",
+      "When should this procedure be performed?",
+      "What are the recovery prerequisites?",
+      "Which services should be verified during recovery?",
+      "Summarize the recovery procedure.",
+      "Translate the summary into Indonesian."
+    ]
+  },
+  {
+    "id": "recovery_02",
+    "category": "rag",
+    "questions": [
+      "The HUMS web application cannot be accessed. Which procedure should I use?",
+      "What could cause this situation?",
+      "Why is backup verification important?",
+      "What should I record before starting recovery?",
+      "Summarize the recommended actions."
+    ]
+  },
+  {
+    "id": "recovery_03",
+    "category": "rag",
+    "questions": [
+      "List all situations that require HUMS Server Recovery.",
+      "Explain the database-related recovery scenario.",
+      "Explain the service verification step in more detail.",
+      "What should I do before notifying users that recovery is complete?",
+      "Translate your answer into Indonesian."
+    ]
+  },
+  {
+    "id": "flight_transfer_01",
+    "category": "rag",
+    "questions": [
+      "What is the Flight Log Transfer Service?",
+      "How often does it execute?",
+      "What services does it depend on?",
+      "Explain the transfer workflow.",
+      "Summarize the workflow.",
+      "Translate the summary into Indonesian."
+    ]
+  },
+  {
+    "id": "flight_transfer_02",
+    "category": "rag",
+    "questions": [
+      "Pending transfer count keeps increasing.",
+      "What are the possible causes?",
+      "How can I verify whether the service is running?",
+      "What should I do if the service is stopped?",
+      "How do I verify that recovery was successful?"
+    ]
+  },
+  {
+    "id": "flight_transfer_03",
+    "category": "rag",
+    "questions": [
+      "Transfer operation timeout exceeded.",
+      "What causes this error?",
+      "Which configuration file should be modified?",
+      "What timeout value is recommended?",
+      "What should be done after changing the timeout?"
+    ]
+  },
+  {
+    "id": "flight_transfer_04",
+    "category": "rag",
+    "questions": [
+      "Transfer authentication failed.",
+      "What is the likely cause?",
+      "Where can I update the credentials?",
+      "What should I do after updating them?",
+      "How can I verify that authentication is working?"
+    ]
+  },
+  {
+    "id": "flight_transfer_05",
+    "category": "rag",
+    "questions": [
+      "Queue size continues to increase while CPU usage remains low.",
+      "What is the most likely cause?",
+      "What corrective action is recommended?",
+      "How should I monitor whether the queue is recovering?",
+      "Summarize the troubleshooting steps."
+    ]
+  },
+  {
+    "id": "flight_transfer_06",
+    "category": "rag",
+    "questions": [
+      "How can I verify network connectivity?",
+      "How can I verify DNS resolution?",
+      "What result should I expect from the ping command?",
+      "What address should nslookup return?",
+      "Translate the verification steps into Indonesian."
+    ]
+  },
+  {
+    "id": "flight_transfer_07",
+    "category": "rag",
+    "questions": [
+      "How do I manually transfer flight logs?",
+      "Where is the Manual Transfer menu located?",
+      "What should I monitor after clicking Transfer Now?",
+      "Where are the transfer log files stored?",
+      "Which log file contains transfer errors?"
+    ]
+  },
+  {
+    "id": "flight_transfer_08",
+    "category": "rag",
+    "questions": [
+      "When should an issue be escalated to the HUMS Support Team?",
+      "What pending transfer threshold requires escalation?",
+      "What if authentication continues to fail after credential verification?",
+      "Summarize all escalation criteria.",
+      "Translate the summary into Indonesian."
+    ]
+  },
+  {
+    "id": "network_sync_01",
+    "category": "rag",
+    "questions": [
+      "What is the purpose of the Network Sync Service?",
+      "What types of data are synchronized?",
+      "When should I investigate this service?",
+      "How can I verify the service status?",
+      "Summarize the responsibilities."
+    ]
+  },
+  {
+    "id": "network_sync_02",
+    "category": "rag",
+    "questions": [
+      "Synchronization status remains pending.",
+      "What other symptoms may appear?",
+      "What could cause this issue?",
+      "What should I verify first?",
+      "Translate the troubleshooting advice into Indonesian."
+    ]
+  },
+  {
+    "id": "cross_document_01",
+    "category": "rag",
+    "questions": [
+      "The HUMS server has recovered but flight logs are still not arriving.",
+      "Which service should I investigate next?",
+      "How can I verify whether network connectivity is the problem?",
+      "What log files should I inspect?",
+      "Summarize the complete troubleshooting workflow."
+    ]
+  },
+  {
+    "id": "cross_document_02",
+    "category": "rag",
+    "questions": [
+      "The Network Sync Service is stopped and the Flight Log Transfer queue keeps increasing.",
+      "Which issue should be resolved first?",
+      "How should I verify each service?",
+      "How can I confirm the system has recovered?",
+      "Translate your final recommendation into Indonesian."
+    ]
+  }
+]

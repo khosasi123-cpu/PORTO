@@ -1,0 +1,57 @@
+[
+  {
+    "id": "translation_01",
+    "category": "translation",
+    "questions": [
+      "Translate the following document into Indonesian:\n\nCloud computing enables organizations to access computing resources over the internet without investing heavily in physical infrastructure. Instead of purchasing and maintaining servers, companies can provision virtual machines, storage, databases, and networking services on demand. This model improves flexibility because resources can be scaled up during peak workloads and reduced when demand decreases. Cloud platforms also provide managed services, monitoring tools, automated backups, and security features that reduce operational overhead. However, organizations must carefully manage costs, implement proper security controls, and ensure compliance with regulatory requirements before migrating critical workloads.",
+      "Translate your Indonesian version back into English.",
+      "Rewrite the English version using a more formal business style.",
+      "Summarize the document into five bullet points.",
+      "Translate the bullet points into Indonesian."
+    ]
+  },
+  {
+    "id": "translation_02",
+    "category": "translation",
+    "questions": [
+      "Translate the following document into Indonesian:\n\nContainer technology allows applications to run consistently across different computing environments by packaging software together with its dependencies. Unlike traditional virtual machines, containers share the host operating system kernel, making them significantly lighter and faster to start. This enables development teams to deploy applications more frequently and with greater confidence. Modern container platforms also support orchestration systems that automatically scale workloads, recover failed services, distribute traffic, and simplify software updates. Proper monitoring, logging, and security practices remain essential to maintain a reliable production environment.",
+      "Translate the Indonesian version back into English.",
+      "Rewrite the English version so it is easier for beginners to understand.",
+      "Summarize the document into one paragraph.",
+      "Translate the summary into Indonesian."
+    ]
+  },
+  {
+    "id": "translation_03",
+    "category": "translation",
+    "questions": [
+      "Translate the following document into Indonesian:\n\nA comprehensive disaster recovery strategy is essential for maintaining business continuity during unexpected failures. Organizations should regularly back up critical systems, verify backup integrity, document recovery procedures, and conduct recovery drills to ensure that personnel understand their responsibilities. Recovery objectives such as Recovery Time Objective (RTO) and Recovery Point Objective (RPO) should be clearly defined to minimize operational disruption. Continuous monitoring and periodic reviews help identify weaknesses before real incidents occur.",
+      "Translate it back into English.",
+      "Rewrite the document using simpler language without losing the original meaning.",
+      "Create a concise executive summary.",
+      "Translate the executive summary into Indonesian."
+    ]
+  },
+  {
+    "id": "translation_04",
+    "category": "translation",
+    "questions": [
+      "Translate the following document into Indonesian:\n\nCybersecurity requires multiple layers of protection rather than relying on a single security mechanism. Organizations should implement strong authentication, regular software updates, endpoint protection, network segmentation, continuous monitoring, and employee security awareness training. Security incidents should be detected quickly, investigated thoroughly, and documented for future analysis. Regular vulnerability assessments and penetration testing help identify security gaps before attackers can exploit them. A well-defined incident response plan significantly reduces recovery time after a cyber attack.",
+      "Translate your Indonesian version back into English.",
+      "Rewrite it using a professional technical writing style.",
+      "Summarize it into five bullet points.",
+      "Translate the bullet points into Indonesian."
+    ]
+  },
+  {
+    "id": "translation_05",
+    "category": "translation",
+    "questions": [
+      "Translate the following document into Indonesian:\n\nArtificial intelligence is increasingly used to automate repetitive tasks, improve operational efficiency, and support decision making across many industries. Machine learning models can identify patterns within large datasets that are difficult for humans to recognize manually. However, successful AI adoption requires high-quality data, continuous model evaluation, proper governance, and human oversight to ensure reliable results. Organizations should also monitor model performance over time because changing business conditions may reduce prediction accuracy. Responsible AI practices help ensure transparency, fairness, and long-term sustainability.",
+      "Translate the Indonesian version back into English.",
+      "Rewrite the English version as if explaining it to a university student.",
+      "Summarize the entire document in one paragraph.",
+      "Translate the summary into Indonesian."
+    ]
+  }
+]

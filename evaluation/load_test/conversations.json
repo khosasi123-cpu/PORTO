@@ -1,0 +1,21 @@
+{
+  "id": "long_history_01",
+  "category": "history",
+  "questions": [
+    "Explain cloud computing.",
+    "Explain virtualization.",
+    "Explain containers.",
+    "Explain Kubernetes.",
+    "Compare Kubernetes and Docker Swarm.",
+    "Explain microservices.",
+    "Summarize everything so far.",
+    "Translate the summary into Indonesian.",
+    "Translate it back into English.",
+    "Create a checklist from our discussion.",
+    "Reduce it to one paragraph.",
+    "Explain the paragraph like I'm a beginner.",
+    "Summarize everything again.",
+    "Translate the final summary into Indonesian.",
+    "What was the first topic we discussed?"
+  ]
+}

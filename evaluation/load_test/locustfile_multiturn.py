@@ -1,7 +1,10 @@
 import uuid
-
+import random
+import json
 from locust import HttpUser, between, task
 
+with open("translate.json", encoding="utf-8") as f:
+            conversations = json.load(f)
 
 class ConversationUser(HttpUser):
     host = "http://127.0.0.1:8000"
@@ -13,13 +16,8 @@ class ConversationUser(HttpUser):
         # Satu session untuk satu percakapan
         self.session_id = str(uuid.uuid4())
 
-        self.questions = [
-            "What is HUMS Server Recovery Procedure?",
-            "When should it be used?",
-            "Explain step 3.",
-            "Can you summarize the procedure?",
-            "Translate it to Indonesian."
-        ]
+        self.questions = random.choice(conversations)["questions"]
+        # self.questions = conversations["questions"]  # Gunakan percakapan pertama untuk konsistensi
 
         self.index = 0
 
