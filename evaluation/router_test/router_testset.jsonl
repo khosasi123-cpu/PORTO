@@ -1,0 +1,55 @@
+{"question":"How to resend FSC in HUMS?","history":"","expected_use_rag":true}
+{"question":"Explain HUMS Server Recovery Procedure.","history":"","expected_use_rag":true}
+{"question":"What is HUMS?","history":"","expected_use_rag":true}
+{"question":"Where is HUMS log stored?","history":"","expected_use_rag":true}
+{"question":"How do I configure HUMS backup?","history":"","expected_use_rag":true}
+{"question":"Why is HUMS service not starting?","history":"","expected_use_rag":true}
+{"question":"How to restart HUMS service?","history":"","expected_use_rag":true}
+{"question":"How to check HUMS health?","history":"","expected_use_rag":true}
+{"question":"Explain HUMS maintenance procedure.","history":"","expected_use_rag":true}
+{"question":"How to restore HUMS database?","history":"","expected_use_rag":true}
+{"question":"Translate this into Indonesian.","history":"","expected_use_rag":false}
+{"question":"Translate the following paragraph to English.","history":"","expected_use_rag":false}
+{"question":"Summarize this document.","history":"","expected_use_rag":false}
+{"question":"Rewrite this email professionally.","history":"","expected_use_rag":false}
+{"question":"Fix the grammar.","history":"","expected_use_rag":false}
+{"question":"Convert this to markdown.","history":"","expected_use_rag":false}
+{"question":"Shorten this paragraph.","history":"","expected_use_rag":false}
+{"question":"Expand this paragraph.","history":"","expected_use_rag":false}
+{"question":"Improve the writing.","history":"","expected_use_rag":false}
+{"question":"Make this more formal.","history":"","expected_use_rag":false}
+{"question":"Thanks!","history":"","expected_use_rag":false}
+{"question":"Hello","history":"","expected_use_rag":false}
+{"question":"Good morning","history":"","expected_use_rag":false}
+{"question":"How are you?","history":"","expected_use_rag":false}
+{"question":"Who are you?","history":"","expected_use_rag":false}
+{"question":"When should I use it?","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":true}
+{"question":"Explain step 3.","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":true}
+{"question":"Can you explain that again?","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":true}
+{"question":"What happens after that?","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":true}
+{"question":"Why is this necessary?","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":true}
+{"question":"Translate it into Indonesian.","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":false}
+{"question":"Summarize the explanation.","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":false}
+{"question":"Rewrite it as bullet points.","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":false}
+{"question":"Convert it into markdown.","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":false}
+{"question":"Translate it into English.","history":"User: Explain HUMS Server Recovery Procedure.","expected_use_rag":false}
+{"question":"How to resend FSC?","history":"","expected_use_rag":true}
+{"question":"Where is FSC stored?","history":"","expected_use_rag":true}
+{"question":"Why does FSC resend fail?","history":"","expected_use_rag":true}
+{"question":"Explain FSC acknowledgement.","history":"","expected_use_rag":true}
+{"question":"How to verify FSC delivery?","history":"","expected_use_rag":true}
+{"question":"Write an SOP about server maintenance.","history":"","expected_use_rag":false}
+{"question":"Generate a meeting agenda.","history":"","expected_use_rag":false}
+{"question":"Write a polite email.","history":"","expected_use_rag":false}
+{"question":"Create a checklist for backup.","history":"","expected_use_rag":false}
+{"question":"Draft an incident report.","history":"","expected_use_rag":false}
+{"question":"What causes Error 503 in HUMS?","history":"","expected_use_rag":true}
+{"question":"How to troubleshoot HUMS connection timeout?","history":"","expected_use_rag":true}
+{"question":"Where is configuration.yaml located?","history":"","expected_use_rag":true}
+{"question":"How to enable debug logging?","history":"","expected_use_rag":true}
+{"question":"Explain log rotation configuration.","history":"","expected_use_rag":true}
+{"question":"Translate this configuration to Indonesian.","history":"server.port=8080","expected_use_rag":false}
+{"question":"Correct my English.","history":"","expected_use_rag":false}
+{"question":"Simplify this explanation.","history":"","expected_use_rag":false}
+{"question":"Paraphrase the following sentence.","history":"","expected_use_rag":false}
+{"question":"Convert this into a table.","history":"","expected_use_rag":false}

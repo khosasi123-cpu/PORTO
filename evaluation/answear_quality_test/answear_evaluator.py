@@ -5,7 +5,7 @@ from litellm import completion
 from dotenv import load_dotenv
 from uuid import uuid4
 
-from evaluation.test import TestQuestion, load_tests
+from evaluation.answear_quality_test.answear_loader import TestQuestion, load_tests
 from services.retrieval import retrieval
 from services.chat import chat
 from schemas.chat import ChatRequest
