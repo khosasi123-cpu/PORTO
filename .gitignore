@@ -10,4 +10,4 @@ wheels/
 .venv
 /data
 .env
-/hf-cache
+/qdrant_storage

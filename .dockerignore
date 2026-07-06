@@ -7,6 +7,7 @@ frontend.py
 /evaluation
 docker-compose.yaml
 README.md
+/qdrant_storage
 
 
 __pycache__

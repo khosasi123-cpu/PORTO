@@ -8,7 +8,7 @@ from typing import Literal
 load_dotenv(override=True)
 # OPENAI= OpenAI()
 # MODEL = "gpt-5.4-nano"
-base_url = os.getenv("OLLAMA_BASE_URL")
+base_url = os.getenv("LLM_BASE_URL")
 api_key = os.getenv("OPENAI_API_KEY")
 MODEL = os.getenv("MODEL")
 

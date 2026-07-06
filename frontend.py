@@ -2,7 +2,7 @@ import uuid
 import requests
 import gradio as gr
 
-API_URL = "http://localhost:8000/chat/"
+API_URL = "http://localhost:8080/chat/"
 
 # satu session per browser
 SESSION_ID = str(uuid.uuid4())

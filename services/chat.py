@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 MODEL = os.getenv("MODEL")
-base_url = os.getenv("OLLAMA_BASE_URL")
+base_url = os.getenv("LLM_BASE_URL")
 api_key = os.getenv("OPENAI_API_KEY")
 
 OPENAI = OpenAI(base_url=base_url, api_key=api_key)
