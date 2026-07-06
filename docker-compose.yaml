@@ -1,3 +1,6 @@
+volumes:
+  qdrant_data:
+
 services:
 
   qdrant:
@@ -10,13 +13,13 @@ services:
       - "6334:6334"
 
     volumes:
-      - ./qdrant_storage:/qdrant/storage
+      - qdrant_data:/qdrant/storage
 
     networks:
       - knowledge-network
 
   vllm:
-    image: vllm/vllm-openai:nightly
+    image: vllm/vllm-openai:nightly-93d8f834dd8acf33eb0e2a75b2711b628cb6e226
     container_name: vllm
     restart: unless-stopped
 
