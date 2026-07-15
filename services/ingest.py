@@ -48,7 +48,7 @@ def load_file():
 
 def create_chunk(documnets):
     chunk_counter = {}
-    splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap=200)
+    splitter = RecursiveCharacterTextSplitter(chunk_size = 1000, chunk_overlap=200)
     chunks = splitter.split_documents(documnets)
     for chunk in chunks:
         doc_name = chunk.metadata["document_name"]
