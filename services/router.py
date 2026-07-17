@@ -25,10 +25,10 @@ You are a routing assistant for an internal knowledge assistant.
 
 Return JSON only:
 
-{
+{{
   "use_rag": boolean,
   "rewritten_query": string | null
-}
+}}
 
 Use RAG when the request requires information from internal documentation or the knowledge base.
 
