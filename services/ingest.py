@@ -15,7 +15,7 @@ QDRANT_PORT = os.getenv("QDRANT_PORT")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 BASE_FOLDER = Path(__file__).parent.parent / "data"
-FOLDERS = [p for p in BASE_FOLDER.iterdir() if p.is_dir()]
+#FOLDERS = [p for p in BASE_FOLDER.iterdir() if p.is_dir()]
 
 #load embeddingt model
 embedding = SentenceTransformer(EMBEDDING_MODEL, device="cpu", local_files_only=True)
@@ -34,17 +34,15 @@ client.create_collection(
 )                          
 
 
-def load_file():
-    documents = []
-    for folder in FOLDERS:
-        doc_type = os.path.basename(folder)
-        load_files = DirectoryLoader(folder ,glob="**/*md", loader_cls=TextLoader, loader_kwargs={'encoding': 'utf-8'})
-        for doc in load_files.load() :
-            doc.metadata["collection"] = doc_type
-            doc.metadata["document_name"] = Path(doc.metadata["source"]).name
-            documents.append(doc)
-    print(f"jumlah documnet yang di load : {len(documents)}")
-    return documents
+# def load_file():
+#     documents = []
+#     for folder in FOLDERS:
+#         load_files = DirectoryLoader(folder ,glob="**/*md", loader_cls=TextLoader, loader_kwargs={'encoding': 'utf-8'})
+#         for doc in load_files.load() :
+#             doc.metadata["document_name"] = Path(doc.metadata["source"]).name
+#             documents.append(doc)
+#     print(f"jumlah documnet yang di load : {len(documents)}")
+#     return documents
 
 def create_chunk(documnets):
     chunk_counter = {}
@@ -73,7 +71,6 @@ def create_point(chunks , vectors):
 
         payload = {
             "source": chunk.metadata["source"],
-            "collection": chunk.metadata["collection"],
             "document_name": chunk.metadata["document_name"],
             "chunk_index": chunk.metadata["chunk_index"],
             "chunk_id": (
@@ -96,12 +93,23 @@ def insert_to_qdrant(points):
                   points=points,
                   )
 
+def ingest_new_document(document: list[Document]):
+    chunk = create_chunk(document)
+    vector = create_vector(chunk)
+    point = create_point(chunk, vector)
+    try: 
+        insert_to_qdrant(point)
+        print("document succesfully uploaded")
+    except:
+        print("failed to upload document")
 
-if __name__ == "__main__" :
-    docs = load_file()
-    chunks = create_chunk(docs)
-    vectors = create_vector(chunks)
-    points = create_point(chunks, vectors)
-    insert_to_qdrant(points)
+
+
+# if __name__ == "__main__" :
+#     docs = load_file()
+#     chunks = create_chunk(docs)
+#     vectors = create_vector(chunks)
+#     points = create_point(chunks, vectors)
+#     insert_to_qdrant(points)
      
 
