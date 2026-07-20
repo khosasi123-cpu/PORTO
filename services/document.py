@@ -2,7 +2,7 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 from tools.docx_parser import parse_docx
 from services.ingest import ingest_new_document
-from database.crud import create_document
+from database.crud import create_document, create_document_images
 from langchain_core.documents import Document
 
 DOCUMENT_DIR = (Path(__file__).parent.parent / "storage" / "document").resolve()
@@ -23,6 +23,11 @@ def add_document(db : Session, doc_path:Path):
         db,
         document_name= doc_path.name,
         path=doc_path
+    )
+    images_db = create_document_images(
+        db,
+        document_db.id,
+        doc.images
     )
     document = [Document(
         page_content =doc.text,

@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 
-from database.model import Document
+from database.model.document import Document
+from database.model.document_image import DocumentImage
+from tools.docx_parser import ExtractedImage
 
 
 def create_document(
@@ -23,7 +25,25 @@ def create_document(
 
     return document
 
+def create_document_images(
+        db: Session,
+        document_id: str,
+        images: list[ExtractedImage] 
+) -> None:
+    """
+    Create new document picture metada
+    """
+    document_images = [
+        DocumentImage(
+            document_id = document_id,
+            filename = image.filename
+        )
+        for image in images
+    ]
+    db.add_all(document_images)
+    db.commit()
 
+    
 def get_document(
     db: Session,
     document_id: str
@@ -66,29 +86,6 @@ def get_all_documents(
         .order_by(Document.document_name)
         .all()
     )
-
-
-def update_document(
-    db: Session,
-    document: Document,
-    document_name: str | None = None,
-    path: str | None = None
-) -> Document:
-    """
-    Update document metadata.
-    """
-
-    if document_name is not None:
-        document.document_name = document_name
-
-    if path is not None:
-        document.path = path
-
-    db.commit()
-    db.refresh(document)
-
-    return document
-
 
 def delete_document(
     db: Session,
