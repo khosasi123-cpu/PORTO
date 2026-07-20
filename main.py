@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes.retrieval import router as retriveal_router
+from routes.document import router as retriveal_router
 from routes.chat import router as chat_router
 
 

@@ -32,7 +32,7 @@ services:
       - ${USERPROFILE}/.cache/huggingface:/root/.cache/huggingface
 
     environment:
-      HUGGING_FACE_HUB_TOKEN: ${HF_TOKEN}
+      HF_HUB_OFFLINE: "1"
 
     command: >
       --model Qwen/Qwen3.5-4B

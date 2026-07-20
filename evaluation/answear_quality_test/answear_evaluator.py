@@ -1,9 +1,13 @@
 import sys
 import math
+from urllib import response
 from pydantic import BaseModel, Field
 from litellm import completion
 from dotenv import load_dotenv
 from uuid import uuid4
+from dotenv import load_dotenv
+import os
+from openai import OpenAI
 
 from evaluation.answear_quality_test.answear_loader import TestQuestion, load_tests
 from services.retrieval import retrieval
@@ -13,9 +17,10 @@ from schemas.chat import ChatRequest
 
 load_dotenv(override=True)
 
-MODEL = "ollama/frob/qwen3.5-instruct:latest"
-
-
+MODEL = "Qwen/Qwen3.5-4B"
+base_url = "http://localhost:8000/v1"
+api_key = os.getenv("OPENAI_API_KEY")
+OPENAI = OpenAI(base_url=base_url, api_key=api_key)
 
 class RetrievalEval(BaseModel):
     """Evaluation metrics for retrieval performance."""
@@ -163,9 +168,20 @@ Provide detailed feedback and scores from 1 (very poor) to 5 (ideal) for each di
     ]
 
     # Call LLM judge with structured outputs (async)
-    judge_response = completion(model=MODEL, messages=judge_messages, response_format=AnswerEval, base_url="http://localhost:11434", api_key="testkey")
+    response = OPENAI.responses.parse(
+    model=MODEL,
+    input=judge_messages,
+    text_format=AnswerEval,
+    temperature=0,
+    max_output_tokens=2048,
+    extra_body={
+        "chat_template_kwargs": {
+            "enable_thinking": False
+        }
+    }
+)
 
-    answer_eval = AnswerEval.model_validate_json(judge_response.choices[0].message.content)
+    answer_eval = response.output_parsed
 
     return answer_eval, generated_answer, retrieved_docs
 
