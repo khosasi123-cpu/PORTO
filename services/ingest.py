@@ -66,6 +66,10 @@ def create_vector(chunks):
     return vectors
 
 def create_point(chunks , vectors):
+    current_count = client.count(
+    collection_name=COLLECTION_NAME,
+    exact=True
+    ).count
     points = []
     for idx, (chunk, vector) in enumerate(zip(chunks, vectors)):
 
@@ -81,7 +85,7 @@ def create_point(chunks , vectors):
         }
 
         point = PointStruct(
-            id = idx,
+            id = current_count + idx,
             vector=vector.tolist(), # perlu tolist agar sebelumnya dari arralu numpy jadi list python yang di mau qdrant
             payload=payload
         )
@@ -100,8 +104,9 @@ def ingest_new_document(document: list[Document]):
     try: 
         insert_to_qdrant(point)
         print("document succesfully uploaded")
-    except:
-        print("failed to upload document")
+    except Exception as e:
+        print(e)
+        raise
 
 
 
