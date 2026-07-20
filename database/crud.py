@@ -54,7 +54,7 @@ def get_document_by_name(
     )
 
 
-def get_documents(
+def get_all_documents(
     db: Session
 ) -> list[Document]:
     """

@@ -56,6 +56,11 @@ def parse_docx(
     docx_path = Path(docx_path)
     image_output_dir = Path(image_output_dir)
 
+    image_output_dir.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
     with ZipFile(docx_path) as docx:
         relationships = _read_image_relationships(docx)
         document_root = ET.fromstring(docx.read("word/document.xml"))

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from pathlib import Path
 from services.retrieval import retrieval
 from services.document import get_document_path, DOCUMENT_DIR, add_document
-from database.crud import get_documents
+from database.crud import get_all_documents
 from schemas import retrieval as retrieval_schemas
 from database.database import get_db
 
@@ -79,7 +79,7 @@ def get_documents(
     db: Session = Depends(get_db)
 ):
 
-    documents = get_documents(db)
+    documents = get_all_documents(db)
 
     return {
         "documents": documents
