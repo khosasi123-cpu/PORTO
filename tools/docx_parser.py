@@ -7,7 +7,11 @@ from zipfile import ZipFile
 import posixpath
 import shutil
 import xml.etree.ElementTree as ET
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+IMAGE_DRIRECTORY = os.getenv("IMAGE_DIRECTORY")
 
 NS = {
     "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
@@ -50,7 +54,7 @@ class ImageRelationship:
 ## satu teks hasil rekonstruksi sesuai urutan asli dokumen.
 def parse_docx(
     docx_path: str | Path,
-    image_output_dir: str | Path = "storage/images",
+    image_output_dir: str | Path = IMAGE_DRIRECTORY,
 ) -> ParsedDocx:
     """Parse a DOCX file into ordered text and extracted image files."""
     docx_path = Path(docx_path)

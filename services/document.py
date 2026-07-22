@@ -5,8 +5,13 @@ from tools.delete_images import delete_images, delete_file
 from services.ingest import ingest_new_document, delete_document_vector
 from database.crud import create_document, create_document_images, get_document_by_name, delete_document_db
 from langchain_core.documents import Document
+from dotenv import load_dotenv
+import os
 
-DOCUMENT_DIR = (Path(__file__).parent.parent / "storage" / "document").resolve()
+load_dotenv()
+
+
+DOCUMENT_DIR = Path(os.getenv("DOCUMENT_DIRECTORY")).resolve()
 
 def get_document_path(document_name: str) -> Path:
     path = DOCUMENT_DIR / document_name
