@@ -4,7 +4,7 @@ import shutil
 from sqlalchemy.orm import Session
 from pathlib import Path
 from services.retrieval import retrieval
-from services.document import get_document_path, DOCUMENT_DIR, add_document
+from services.document import get_document_path, DOCUMENT_DIR, add_document, delete_document as del_doc
 from database.crud import get_all_documents
 from schemas import retrieval as retrieval_schemas
 from database.database import get_db
@@ -85,3 +85,15 @@ def get_documents(
         "documents": documents
     }
 
+@router.delete("/{document_name}")
+def delete_document(
+    document_name : str,
+    db: Session = Depends(get_db),
+                    ):
+    del_doc(
+        db=db,
+        document_name=document_name
+    )
+    return {
+        "message": "Document deleted successfully."
+    }

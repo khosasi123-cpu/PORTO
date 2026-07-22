@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from database.model.document import Document
 from database.model.document_image import DocumentImage
@@ -44,7 +44,7 @@ def create_document_images(
     db.commit()
 
     
-def get_document(
+def get_document_by_id(
     db: Session,
     document_id: str
 ) -> Document | None:
@@ -69,6 +69,7 @@ def get_document_by_name(
 
     return (
         db.query(Document)
+        .options(joinedload(Document.images))
         .filter(Document.document_name == document_name)
         .first()
     )
@@ -87,7 +88,8 @@ def get_all_documents(
         .all()
     )
 
-def delete_document(
+
+def delete_document_db(
     db: Session,
     document: Document
 ) -> None:

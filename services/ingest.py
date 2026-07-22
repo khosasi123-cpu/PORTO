@@ -3,7 +3,7 @@ from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_core.documents import Document
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
-from qdrant_client.models import PointStruct, VectorParams, Distance
+from qdrant_client.models import PointStruct, VectorParams, Distance, FilterSelector, Filter, FieldCondition, MatchValue
 from pathlib import Path
 import glob
 import os
@@ -74,6 +74,7 @@ def create_point(chunks , vectors):
     for idx, (chunk, vector) in enumerate(zip(chunks, vectors)):
 
         payload = {
+            "document_id": chunk.metadata["document_id"],
             "source": chunk.metadata["source"],
             "document_name": chunk.metadata["document_name"],
             "chunk_index": chunk.metadata["chunk_index"],
@@ -108,6 +109,20 @@ def ingest_new_document(document: list[Document]):
         print(e)
         raise
 
+def delete_document_vector(document_id:str):
+    client.delete(
+        collection_name=COLLECTION_NAME,
+        points_selector=FilterSelector(
+            filter=Filter(
+                must=[
+                    FieldCondition(
+                        key="document_id",
+                        match=MatchValue(value=document_id)
+                    )
+                ]
+            )
+        )
+    )
 
 
 # if __name__ == "__main__" :

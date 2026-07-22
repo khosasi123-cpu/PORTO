@@ -1,5 +1,6 @@
 from database.model.document import Document
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from database.database import Base
 
 class DocumentImage(Base):
@@ -17,4 +18,9 @@ class DocumentImage(Base):
     filename = Column(
         String,
         nullable=False
+    )
+
+    document = relationship(
+        "Document",
+        back_populates="images"
     )

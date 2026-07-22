@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from database.database import Base
 from uuid import uuid4
 
@@ -17,4 +18,10 @@ class Document(Base):
     path = Column(
         String,
         nullable=False
+    )
+
+    images = relationship(
+        "DocumentImage",
+        back_populates="document",
+        cascade="all, delete-orphan"
     )

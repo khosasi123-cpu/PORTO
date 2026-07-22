@@ -1,8 +1,9 @@
 from pathlib import Path
 from sqlalchemy.orm import Session
 from tools.docx_parser import parse_docx
-from services.ingest import ingest_new_document
-from database.crud import create_document, create_document_images
+from tools.delete_images import delete_images, delete_file
+from services.ingest import ingest_new_document, delete_document_vector
+from database.crud import create_document, create_document_images, get_document_by_name, delete_document_db
 from langchain_core.documents import Document
 
 DOCUMENT_DIR = (Path(__file__).parent.parent / "storage" / "document").resolve()
@@ -37,6 +38,25 @@ def add_document(db : Session, doc_path:Path):
     )]
     ingest_new_document(document)
 
+def delete_document(db: Session,
+                    document_name:str
+                    ):
+    document = get_document_by_name(db,
+                                    document_name=document_name)
+    if document is None:
+        raise
+
+    delete_document_vector(
+        document.id
+    )
+    delete_images(
+        document.images
+    )
+    delete_file(
+        document.path
+    )
+    delete_document_db(db,
+           document)
 
 if __name__=="__main__":
     print(get_document_path("HUMS_installation.md"))
