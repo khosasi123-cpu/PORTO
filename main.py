@@ -5,6 +5,8 @@ from fastapi import FastAPI
 from database.database import Base, engine
 from database.model.document import Document
 from database.model.document_image import DocumentImage
+from database.model.conversation import Conversation
+from database.model.message import Message
 
 from routes.document import router as retriveal_router
 from routes.chat import router as chat_router

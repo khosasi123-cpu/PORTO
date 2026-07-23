@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from tools.docx_parser import parse_docx
 from tools.delete_images import delete_images, delete_file
 from services.ingest import ingest_new_document, delete_document_vector
-from database.crud import create_document, create_document_images, get_document_by_name, delete_document_db
+from database.crud.document import create_document, create_document_images, get_document_by_name, delete_document_db
 from langchain_core.documents import Document
 from dotenv import load_dotenv
 import os

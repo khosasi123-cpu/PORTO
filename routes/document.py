@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from pathlib import Path
 from services.retrieval import retrieval
 from services.document import get_document_path, DOCUMENT_DIR, add_document, delete_document as del_doc
-from database.crud import get_all_documents
-from schemas import retrieval as retrieval_schemas
+from database.crud.document import get_all_documents, search_documents
+from schemas import document
 from database.database import get_db
 
 
@@ -16,21 +16,17 @@ router = APIRouter(
 )
 
 
-@router.post("/search", response_model=retrieval_schemas.RetrievalResponse)
-def retrieve_document(question : str):
+@router.get("/search", response_model=document.DocumentResult)
+def retrieve_document(keyword : str,
+                      db: Session = Depends(get_db)
+                      ):
     """
-    fungsi untuk cari dokumen berdasarkan vector
+    fungsi untuk cari dokumen berdasarkan nama similarity
     """
-    data = []
-    points = retrieval(question)
-    for point, scores in points:
-        data.append({
-            "score" : scores,
-            "document_name" : point.payload["document_name"],
-            "chunk_id" : point.payload["chunk_id"],
-            "text" : point.payload["text"]
-        })
+    data = search_documents(db, keyword=keyword)
     return {"results" : data}
+
+
 
 @router.get("/{document_name}")
 def download_document(document_name: str): 
@@ -50,6 +46,8 @@ def download_document(document_name: str):
             status_code=404,
             detail="Document not found"
         )
+
+    
 @router.post("/upload")
 def upload_document(
     file: UploadFile = File(...),

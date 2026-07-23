@@ -99,3 +99,17 @@ def delete_document_db(
 
     db.delete(document)
     db.commit()
+
+def search_documents(
+    db: Session,
+    keyword: str
+) -> list[Document]:
+
+    return (
+        db.query(Document)
+        .filter(
+            Document.document_name.ilike(f"%{keyword}%")
+        )
+        .order_by(Document.document_name)
+        .all()
+    )
