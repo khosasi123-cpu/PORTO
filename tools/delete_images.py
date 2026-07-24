@@ -1,6 +1,10 @@
 from database.model.document_image import DocumentImage
 from pathlib import Path
-IMAGE_DIRECTORY = Path("storage/images")
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+IMAGE_DIRECTORY = Path(os.getenv("IMAGE_DIRECTORY")).resolve()
 
 
 def delete_file(

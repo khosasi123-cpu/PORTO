@@ -7,16 +7,14 @@ from tools.docx_parser import ExtractedImage
 
 def create_document(
     db: Session,
-    document_name: str,
-    path: str
+    document_name: str
 ) -> Document:
     """
     Create new document metadata.
     """
 
     document = Document(
-        document_name=document_name,
-        path=str(path)
+        document_name=document_name
     )
 
     db.add(document)

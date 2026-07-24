@@ -14,31 +14,31 @@ load_dotenv()
 DOCUMENT_DIR = Path(os.getenv("DOCUMENT_DIRECTORY")).resolve()
 
 def get_document_path(document_name: str) -> Path:
-    path = DOCUMENT_DIR / document_name
+    document_path = DOCUMENT_DIR / document_name
 
-    if not path.exists():
+    if not document_path.exists():
         raise FileNotFoundError(
             f"Document not found: {document_name}"
         )
 
-    return path
+    return document_path
 
-def add_document(db : Session, doc_path:Path):
-    doc = parse_docx(doc_path)
+def add_document(db : Session, document_name: str):
+    doc = parse_docx(get_document_path(document_name))
     document_db = create_document(
         db,
-        document_name= doc_path.name,
-        path=doc_path
+        document_name= document_name
     )
-    images_db = create_document_images(
+
+    create_document_images(
         db,
         document_db.id,
         doc.images
     )
     document = [Document(
         page_content =doc.text,
-        metadata = {"source" : str(doc_path),
-                    "document_name" : doc_path.name,
+        metadata = {"source" : document_name,
+                    "document_name" : document_name,
                     "document_id" : document_db.id}
     )]
     ingest_new_document(document)
@@ -58,7 +58,7 @@ def delete_document(db: Session,
         document.images
     )
     delete_file(
-        document.path
+        get_document_path(document_name)
     )
     delete_document_db(db,
            document)

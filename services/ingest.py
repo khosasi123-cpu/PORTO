@@ -22,16 +22,17 @@ embedding = SentenceTransformer(EMBEDDING_MODEL, device="cpu", local_files_only=
 
 #crete collection
 client = QdrantClient(host=QDRANT_HOST, port= QDRANT_PORT)
-if client.collection_exists(COLLECTION_NAME):
-    client.delete_collection(collection_name=COLLECTION_NAME)
+def init_vector_db():
+    if client.collection_exists(COLLECTION_NAME):
+        return
 
-client.create_collection(
-    collection_name=COLLECTION_NAME,
-    vectors_config=VectorParams(
-        size=1024,
-        distance=Distance.COSINE
-    )
-)                          
+    client.create_collection(
+        collection_name=COLLECTION_NAME,
+        vectors_config=VectorParams(
+            size=1024,
+            distance=Distance.COSINE,
+        ),
+    )                        
 
 
 # def load_file():

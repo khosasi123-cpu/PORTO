@@ -15,11 +15,6 @@ class Document(Base):
         String,
         nullable=False,
     )
-    path = Column(
-        String,
-        nullable=False
-    )
-
     images = relationship(
         "DocumentImage",
         back_populates="document",

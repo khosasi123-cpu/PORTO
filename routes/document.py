@@ -54,8 +54,8 @@ def upload_document(
     db: Session = Depends(get_db),
 ):
     DOCUMENT_DIR.mkdir(
-    parents=True,
-    exist_ok=True
+        parents=True,
+        exist_ok=True
 )
     destination = DOCUMENT_DIR / file.filename
 
@@ -67,7 +67,7 @@ def upload_document(
 
     return add_document(
         db=db,
-        doc_path=destination
+        document_name=file.filename
     )
 
 @router.get(

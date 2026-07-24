@@ -11,11 +11,18 @@ from database.model.message import Message
 from routes.document import router as document_router
 from routes.chat import router as chat_router
 from routes.conversation import router as conversation_router
+from services.ingest import init_vector_db
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
+    yield
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    init_vector_db()
     yield
 
 
