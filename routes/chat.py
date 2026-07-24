@@ -1,13 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from database.database import get_db
 from services.chat import chat as chat_with_AI
-from schemas.chat import ChatRequest, ChatResult
+from schemas.chat import ChatRequest, ChatResponse
 
 router = APIRouter(
     prefix="/chat",
     tags=["chat"]
 )
 
-@router.post("/", response_model=ChatResult)
-def create_chat(question :  ChatRequest):
-    response = chat_with_AI(question)
-    return response
+@router.post("/", response_model=ChatResponse)
+def create_chat(question :  ChatRequest, db : Session = Depends(get_db)):
+    return chat_with_AI(
+        user_request=question,
+        db=db
+    )   

@@ -16,15 +16,15 @@ router = APIRouter(
 )
 
 
-@router.get("/search", response_model=document.DocumentResult)
+@router.get("/search", response_model=list[document.DocumentResult])
 def retrieve_document(keyword : str,
                       db: Session = Depends(get_db)
                       ):
     """
     fungsi untuk cari dokumen berdasarkan nama similarity
     """
-    data = search_documents(db, keyword=keyword)
-    return {"results" : data}
+    return search_documents(db, keyword=keyword)
+    
 
 
 

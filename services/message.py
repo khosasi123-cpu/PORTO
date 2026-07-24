@@ -5,6 +5,10 @@ from services.conversation import _require_conversation
 from database.model.message import Message
 from database.crud import messages as message_crud
 
+VALID_ROLES = {
+    "user",
+    "assistant"
+}
 
 def create_message(
     db: Session,
@@ -16,7 +20,7 @@ def create_message(
     Create a new message.
     """
 
-    _require_conversation(
+    conversation = _require_conversation(
         db,
         conversation_id
     )
@@ -29,7 +33,7 @@ def create_message(
 
     return message_crud.create_message(
         db=db,
-        conversation_id=conversation_id,
+        conversation=conversation,
         role=role,
         content=content
     )
@@ -39,7 +43,7 @@ def get_recent_messages(
     db: Session,
     conversation_id: int,
     limit: int = 10
-) -> list[Message]:
+) -> list[dict]:
     """
     Get recent messages in a conversation.
     """
@@ -49,8 +53,12 @@ def get_recent_messages(
         conversation_id
     )
 
-    return message_crud.get_recent_messages(
+    message_db = message_crud.get_recent_messages(
         db=db,
         conversation_id=conversation_id,
         limit=limit
     )
+    return [{
+        "role": message.role,
+        "content": message.content
+    } for message in message_db]

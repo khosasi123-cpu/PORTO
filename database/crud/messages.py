@@ -1,19 +1,22 @@
 from sqlalchemy.orm import Session
+from datetime import datetime, UTC
 
+from database.model.conversation import Conversation
 from database.model.message import Message
 
 def create_message(
     db: Session,
-    conversation_id: int,
+    conversation: Conversation,
     role: str,
     content: str
 ) -> Message:
     """
     Create a new message.
     """
+    conversation.updated_at = datetime.now(UTC)
 
     message = Message(
-        conversation_id=conversation_id,
+        conversation_id=conversation.id,
         role=role,
         content=content
     )
@@ -33,10 +36,12 @@ def get_recent_messages(
     Get the most recent messages for a conversation.
     """
 
-    return (
+    messages = (
         db.query(Message)
         .filter(Message.conversation_id == conversation_id)
-        .order_by(Message.created_at.desc())
+        .order_by(Message.id.desc())
         .limit(limit)
         .all()
     )
+    messages.reverse()
+    return messages

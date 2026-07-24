@@ -8,8 +8,9 @@ from database.model.document_image import DocumentImage
 from database.model.conversation import Conversation
 from database.model.message import Message
 
-from routes.document import router as retriveal_router
+from routes.document import router as document_router
 from routes.chat import router as chat_router
+from routes.conversation import router as conversation_router
 
 
 @asynccontextmanager
@@ -20,8 +21,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(retriveal_router)
+app.include_router(document_router)
 app.include_router(chat_router)
+app.include_router(conversation_router)
 
 
 @app.get("/health")
